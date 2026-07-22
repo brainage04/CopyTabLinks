@@ -10,8 +10,7 @@ async function getSettings() {
   const settings = await chrome.storage.sync.get(DEFAULTS);
   return {
     closeAfterCopy: Boolean(settings.closeAfterCopy),
-    separator:
-      typeof settings.separator === "string" ? settings.separator : DEFAULTS.separator
+    separator: typeof settings.separator === "string" ? settings.separator : DEFAULTS.separator
   };
 }
 
