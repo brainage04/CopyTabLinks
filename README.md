@@ -57,13 +57,14 @@ To build the Chrome Web Store upload package, run:
 npm run build:zip
 ```
 
-This writes `dist/copy-tab-links-1.0.0.zip` with only the runtime extension files.
+This writes `dist/copy-tab-links-1.0.1.zip` with only the runtime extension files.
 
 ## Files
 
 - `manifest.json`: Chrome extension manifest.
 - `icons/`: Extension icon source and generated PNG assets.
 - `src/sw.js`: Service worker for context menu setup and tab URL copying.
+- `src/offscreen.html`, `src/offscreen.js`: Offscreen document that writes the copied URLs to the clipboard.
 - `src/options.html`: Extension options page.
 - `src/options.js`: Options page storage logic.
 - `scripts/build-extension-zip.js`: Chrome Web Store ZIP builder.

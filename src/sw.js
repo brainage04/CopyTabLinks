@@ -1,5 +1,6 @@
 const MENU_COPY = "copy-selected-tab-links";
 const MENU_OPTIONS = "open-options";
+const OFFSCREEN_URL = "src/offscreen.html";
 
 const DEFAULTS = {
   closeAfterCopy: false,
@@ -32,6 +33,33 @@ chrome.runtime.onInstalled.addListener(async () => {
   await chrome.storage.sync.set(current);
 });
 
+let creatingOffscreen = null;
+
+async function ensureOffscreenDocument() {
+  if (await chrome.offscreen.hasDocument()) return;
+
+  creatingOffscreen ??= chrome.offscreen
+    .createDocument({
+      url: OFFSCREEN_URL,
+      reasons: [chrome.offscreen.Reason.CLIPBOARD],
+      justification: "Write the selected tabs' URLs to the clipboard."
+    })
+    .finally(() => {
+      creatingOffscreen = null;
+    });
+  await creatingOffscreen;
+}
+
+// Copying from the extension's own offscreen document avoids the page's clipboard
+// permission prompt, which Chrome shows when the active tab has no user activation.
+async function writeClipboard(text) {
+  await ensureOffscreenDocument();
+  const response = await chrome.runtime.sendMessage({ target: "offscreen", type: "copy", text });
+  if (!response?.ok) {
+    throw new Error("Copying to the clipboard failed.");
+  }
+}
+
 async function copySelectedTabUrls() {
   const { separator, closeAfterCopy } = await getSettings();
 
@@ -47,16 +75,9 @@ async function copySelectedTabUrls() {
     .filter((u) => typeof u === "string" && u.length > 0)
     .join(separator);
 
-  const active = tabs.find((t) => t.active) ?? tabs[0];
-  if (!active?.id) return;
+  if (text.length === 0) return;
 
-  await chrome.scripting.executeScript({
-    target: { tabId: active.id },
-    func: async (toCopy) => {
-      await navigator.clipboard.writeText(toCopy);
-    },
-    args: [text]
-  });
+  await writeClipboard(text);
 
   if (!closeAfterCopy) return;
 
