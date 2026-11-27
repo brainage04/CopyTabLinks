@@ -6,12 +6,16 @@ The extension can copy selected tab URLs from the toolbar action or action conte
 
 See [PRIVACY.md](./PRIVACY.md) for the privacy policy.
 
-## Load in Chrome
+## Install in Chrome
+
+Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/copy-selected-tab-links/gmbpfgldgdndledioooanfoififpekbe).
+
+To load it unpacked instead, from a clone of this repository or the unzipped zip on the [Releases](https://github.com/brainage04/CopyTabLinks/releases) page:
 
 1. Open `chrome://extensions`.
 2. Enable **Developer mode**.
 3. Click **Load unpacked**.
-4. Select this folder.
+4. Select the extension folder.
 
 ## Usage
 
