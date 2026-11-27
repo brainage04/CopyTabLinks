@@ -17,7 +17,7 @@ To load it unpacked instead, from a clone of this repository or the unzipped zip
 3. Click **Load unpacked**.
 4. Select the extension folder.
 
-## Usage
+## Using it
 
 Select a range of tabs by clicking the first tab, then holding Shift and clicking the last tab. Click the extension action, or right-click the action and choose **Copy selected tabs' links**.
 
@@ -26,7 +26,9 @@ Open the extension options to configure:
 - whether selected tabs close after copying
 - the separator between copied URLs
 
-## Development
+## For developers
+
+### Development
 
 The development tooling requires Node.js `^20.19.0`, `^22.13.0`, or `>=24`.
 
@@ -63,7 +65,7 @@ npm run build:zip
 
 This writes `dist/copy-tab-links-1.0.1.zip` with only the runtime extension files.
 
-## Files
+### Files
 
 - `manifest.json`: Chrome extension manifest.
 - `icons/`: Extension icon source and generated PNG assets.
